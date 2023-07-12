@@ -137,6 +137,7 @@ function App() {
 
   return (
     <div className="App">
+      <p>Câu hỏi:</p>
       <div style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
         {
           data.map((e, i) => {
@@ -235,6 +236,8 @@ function App() {
 
       <button
         onClick={() => {
+          const newArr = dataCustom.map(e => { return { ...e, selected: false } })
+          setDataCustom(newArr)
           setDataSelect([])
         }}
         style={{ marginTop: 30, marginLeft: 10 }}>
