@@ -34,6 +34,36 @@ function App() {
         ques: "Cờ đỏ sao vàng",
         selected: false,
         isDone: false
+      },
+      {
+        id: 6,
+        ques: "Gà trống",
+        selected: false,
+        isDone: false
+      },
+      {
+        id: 7,
+        ques: "Mạnh mẽ",
+        selected: false,
+        isDone: false
+      },
+      {
+        id: 8,
+        ques: "Ngoằn ngoèo",
+        selected: false,
+        isDone: false
+      },
+      {
+        id: 9,
+        ques: "Ngoằn ngoèo",
+        selected: false,
+        isDone: false
+      },
+      {
+        id: 10,
+        ques: "Trứng vịt lộn",
+        selected: false,
+        isDone: false
       }
     ],
   )
