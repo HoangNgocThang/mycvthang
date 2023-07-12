@@ -110,6 +110,7 @@ function App() {
     console.log("onClickButton", s1, s2)
     if (s1 == s2) {
       alert('Đáp án bạn chính xác')
+      onNext()
     } else {
       alert('Đáp án bạn đã sai')
     }
@@ -129,6 +130,29 @@ function App() {
       })
       setDataSelect(dataSelect.concat(item))
       setDataCustom(arr)
+    }
+  }
+
+  const onNext = () => {
+    setDataCustom([])
+    let id = data.find(e => e.selected == true).id || 1;
+    if (id < 10) {
+      id++
+
+      const newArr = data.map(e => {
+        if (e.id == id) {
+          return { ...e, selected: true }
+        }
+        return { ...e, selected: false }
+      })
+
+      console.log("new ", newArr)
+
+      setData(newArr)
+
+      setDataSelect([])
+    } else {
+      alert("Đã hết bộ câu hỏi, đợi admin bổ sung thêm nhé !!!")
     }
   }
 
@@ -244,27 +268,7 @@ function App() {
 
       <button
         onClick={() => {
-          setDataCustom([])
-          let id = data.find(e => e.selected == true).id || 1;
-          if (id < 10) {
-            id++
-
-            const newArr = data.map(e => {
-              if (e.id == id) {
-                return { ...e, selected: true }
-              }
-              return { ...e, selected: false }
-            })
-
-            console.log("new ", newArr)
-
-            // randomData()
-            setData(newArr)
-
-            setDataSelect([])
-          } else {
-            alert("Đã hết bộ câu hỏi, đợi admin bổ sung thêm nhé !!!")
-          }
+          onNext()
         }}
         style={{ marginTop: 30, marginLeft: 10 }}>
         <p>Chuyển câu</p>
