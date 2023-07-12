@@ -74,7 +74,6 @@ function App() {
 
   const randomData = () => {
     const itemSelected = data.find(e => e.selected == true).ques.split(' ').join('').split('');
-    // const itemSelected = itemSelected
     console.log('itemSelected', itemSelected, itemSelected.length)
     const arr = []
     for (let i = itemSelected.length - 1; i >= 0; i--) {
@@ -109,7 +108,6 @@ function App() {
     const s1 = data.find(e => e.selected == true).ques.split(' ').join('');
     const s2 = dataSelect.map(e => e.value).toString().split(',').join('')
     console.log("onClickButton", s1, s2)
-
     if (s1 == s2) {
       alert('Đáp án bạn chính xác')
     } else {
@@ -129,7 +127,6 @@ function App() {
         }
         return e
       })
-
       setDataSelect(dataSelect.concat(item))
       setDataCustom(arr)
     }
@@ -137,10 +134,11 @@ function App() {
 
   return (
     <div className="App">
+      <h1>TÌM CHỮ - ĐOÁN TỪ</h1>
       <p>Câu hỏi:</p>
       <div style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
         {
-          data.map((e, i) => {
+          data && data.map((e, i) => {
             return (
               <div
                 key={`${i}`}
@@ -180,7 +178,7 @@ function App() {
       </div>
       <div style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
         {
-          dataCustom.map((e, i) => {
+          dataCustom && dataCustom.map((e, i) => {
             return (
               <div
                 onClick={() => onClickItem(e, i)}
@@ -206,7 +204,7 @@ function App() {
 
       <div style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
         {
-          dataSelect.map((e, i) => {
+          dataSelect && dataSelect.map((e, i) => {
             return (
               <div
                 onClick={onClickItem}
@@ -243,6 +241,35 @@ function App() {
         style={{ marginTop: 30, marginLeft: 10 }}>
         <p>Làm mới</p>
       </button>
+
+      <button
+        onClick={() => {
+          setDataCustom([])
+          let id = data.find(e => e.selected == true).id || 1;
+          if (id < 10) {
+            id++
+
+            const newArr = data.map(e => {
+              if (e.id == id) {
+                return { ...e, selected: true }
+              }
+              return { ...e, selected: false }
+            })
+
+            console.log("new ", newArr)
+
+            // randomData()
+            setData(newArr)
+
+            setDataSelect([])
+          } else {
+            alert("Đã hết bộ câu hỏi, đợi admin bổ sung thêm nhé !!!")
+          }
+        }}
+        style={{ marginTop: 30, marginLeft: 10 }}>
+        <p>Chuyển câu</p>
+      </button>
+
     </div>
   );
 
