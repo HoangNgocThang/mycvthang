@@ -159,6 +159,7 @@ function App() {
                     }
                   })
                   console.log('a1', newArr)
+                  setDataSelect([])
                   setData(newArr)
                 }}
                 style={{
