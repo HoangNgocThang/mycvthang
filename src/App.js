@@ -8,32 +8,39 @@ function App() {
       {
         id: 1,
         ques: "Ngẫu hứng",
-        selected: true
+        selected: true,
+        isDone: false
       },
       {
         id: 2,
         ques: "Ốc vít",
-        selected: false
+        selected: false,
+        isDone: false
       },
       {
         id: 3,
         ques: "Cá chép",
-        selected: false
+        selected: false,
+        isDone: false
       },
       {
         id: 4,
         ques: "Báo thức",
-        selected: false
+        selected: false,
+        isDone: false
       },
       {
         id: 5,
         ques: "Cờ đỏ sao vàng",
-        selected: false
+        selected: false,
+        isDone: false
       }
     ],
   )
 
   const [dataCustom, setDataCustom] = React.useState([])
+
+  const [dataSelect, setDataSelect] = React.useState([])
 
   const randomData = () => {
     const itemSelected = data.find(e => e.selected == true).ques.split(' ').join('').split('');
@@ -57,7 +64,7 @@ function App() {
     console.log('arr3', arr3)
     const arrDone = arr2.concat(arr3)
     console.log('arrDone', arrDone)
-    setDataCustom(arrDone)
+    setDataCustom(arrDone.map((e, i) => { return { value: e, selected: false, index: i } }))
   }
 
   useEffect(() => {
@@ -67,6 +74,36 @@ function App() {
   useEffect(() => {
     randomData()
   }, [data])
+
+  const onClickButton = () => {
+    const s1 = data.find(e => e.selected == true).ques.split(' ').join('');
+    const s2 = dataSelect.map(e => e.value).toString().split(',').join('')
+    console.log("onClickButton", s1, s2)
+
+    if (s1 == s2) {
+      alert('Đáp án bạn chính xác')
+    } else {
+      alert('Đáp án bạn đã sai')
+    }
+  }
+
+  const onClickItem = (item, index) => {
+    console.log('onClickItem', item,)
+    if (item.selected == false) {
+      const arr = dataCustom.map(e => {
+        if (
+          e.value == item.value &&
+          e.index == item.index
+        ) {
+          return { ...e, selected: true, index: index }
+        }
+        return e
+      })
+
+      setDataSelect(dataSelect.concat(item))
+      setDataCustom(arr)
+    }
+  }
 
   return (
     <div className="App">
@@ -96,9 +133,10 @@ function App() {
                 }}
                 style={{
                   display: 'flex',
-                  width: 20, height: 20,
+                  width: 20,
+                  height: 20,
                   margin: 10,
-                  background: 'grey',
+                  background: 'orange',
                   justifyContent: 'center',
                   alignItems: 'center'
                 }}>
@@ -113,7 +151,10 @@ function App() {
           dataCustom.map((e, i) => {
             return (
               <div
+                onClick={() => onClickItem(e, i)}
                 style={{
+                  backgroundColor: e.selected ? 'green' : 'silver',
+                  display: 'flex',
                   border: '1px solid rgba(0, 0, 0, 0.05)',
                   width: 50,
                   height: 50,
@@ -122,12 +163,52 @@ function App() {
                 }}
                 key={`${i}`}
               >
-                <p>{e}</p>
+                <p>{e.value}</p>
               </div>
             )
           })
         }
       </div>
+
+      <p>Đáp án của tôi:</p>
+
+      <div style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
+        {
+          dataSelect.map((e, i) => {
+            return (
+              <div
+                onClick={onClickItem}
+                style={{
+                  display: 'flex',
+                  backgroundColor: '#3390FF',
+                  border: '1px solid rgba(0, 0, 0, 0.05)',
+                  width: 50,
+                  height: 50,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+                key={`${i}`}
+              >
+                <p>{e.value}</p>
+              </div>
+            )
+          })
+        }
+      </div>
+
+      <button
+        onClick={onClickButton}
+        style={{ marginTop: 30, }}>
+        <p>Kiểm tra</p>
+      </button>
+
+      <button
+        onClick={() => {
+          setDataSelect([])
+        }}
+        style={{ marginTop: 30, marginLeft: 10 }}>
+        <p>Làm mới</p>
+      </button>
     </div>
   );
 
